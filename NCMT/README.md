@@ -1,6 +1,29 @@
-# Team_SShaRK Transit Platform MVP
+# Team_SShaRK Transit Platform
 
-This project is a Next.js-based smart transit MVP for Kathmandu Valley microbus and tempo routes.
+🚍 A Next.js-based smart transit platform for Kathmandu Valley microbus and tempo routes.
+
+## 🚀 Quick Start
+
+**New to the project?** Check out the [SETUP.md](./SETUP.md) guide for detailed setup instructions.
+
+## ✨ Features
+
+- 🔍 **Route Search** - Find routes between two stops with fuzzy matching
+- 💰 **Fare Estimation** - Get estimated fares with fallback logic
+- ⏱️ **ETA Calculation** - View wait times and trip duration
+- 🗺️ **Interactive Maps** - Visualize routes with Leaflet
+- 👨‍✈️ **Driver Portal** - Submit new routes, fares, and updates
+- 🔐 **Admin Dashboard** - Review and approve community submissions
+- 📊 **Real-time Vehicle Tracking** - See active vehicles on routes
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** Firebase Firestore + Realtime Database
+- **Maps:** Leaflet + React-Leaflet
+- **Deployment:** Vercel-ready
 
 ## Seed Data Setup
 
