@@ -11,9 +11,9 @@ const toneClasses = {
 
 export default function ETABadge({ label, minutes, tone = 'slate' }: ETABadgeProps) {
   return (
-    <div className={`rounded-lg border p-3 ${toneClasses[tone]}`}>
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="text-lg font-semibold">{minutes} min</p>
+    <div className={`rounded-lg border-2 p-4 sm:p-3 text-center ${toneClasses[tone]}`}>
+      <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">{label}</p>
+      <p className="text-2xl sm:text-lg font-bold">{minutes} <span className="text-xs font-normal">min</span></p>
     </div>
   );
 }

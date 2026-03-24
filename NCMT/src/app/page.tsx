@@ -4,26 +4,26 @@ import SearchForm from '@/components/SearchForm';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#f4f8f4]">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-blue-50">
       {/* Hero Section */}
-      <div className="bg-emerald-800 text-white py-16">
+      <div className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-8 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="inline-block rounded-full border border-emerald-300/40 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-100">
-            Kathmandu Transit MVP
+          <p className="inline-block rounded-full border border-emerald-300/50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-emerald-100 mb-3">
+            🚍 Smart Transit
           </p>
-          <h1 className="mt-4 text-4xl md:text-5xl font-bold leading-tight">
-            Professional Route Guidance for Daily Commute
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4">
+            Your Daily Commute, Simplified
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-emerald-100">
-            Search routes, estimate fares, and check vehicle availability using community-powered transit data.
+          <p className="max-w-2xl text-base sm:text-lg text-emerald-100">
+            Find routes, compare fares, check availability, and track vehicles in real-time. All in one place.
           </p>
         </div>
       </div>
 
       {/* Search Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="bg-white rounded-xl p-8 border border-emerald-100 shadow-sm">
-          <h2 className="text-2xl font-bold mb-6">Find Your Route</h2>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 relative z-10 pb-8 sm:pb-12">
+        <div className="bg-white rounded-2xl p-5 sm:p-8 border-2 border-emerald-100 shadow-lg">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">Search Routes</h2>
           <SearchForm />
         </div>
       </div>

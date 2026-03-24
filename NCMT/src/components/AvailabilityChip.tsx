@@ -5,17 +5,18 @@ interface AvailabilityChipProps {
 }
 
 const availabilityClassMap = {
-  available: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  limited: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  'not-available': 'bg-rose-100 text-rose-800 border-rose-200',
+  available: 'bg-emerald-500 text-white border-emerald-600',
+  limited: 'bg-amber-500 text-white border-amber-600',
+  'not-available': 'bg-rose-500 text-white border-rose-600',
 };
 
 export default function AvailabilityChip({ availability }: AvailabilityChipProps) {
   return (
-    <span
-      className={`rounded-full border px-3 py-1 text-xs font-semibold ${availabilityClassMap[availability.level]}`}
+    <div
+      className={`rounded-full border-2 px-3 py-2 sm:px-3 sm:py-1 text-xs sm:text-xs font-bold whitespace-nowrap inline-flex gap-1 items-center ${availabilityClassMap[availability.level]}`}
     >
-      {availability.label} ({availability.activeCount} active)
-    </span>
+      <span>{availability.label}</span>
+      <span className="font-normal">({availability.activeCount})</span>
+    </div>
   );
 }

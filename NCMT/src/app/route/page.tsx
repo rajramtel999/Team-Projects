@@ -15,14 +15,19 @@ export default async function RoutePage({ searchParams }: RoutePageProps) {
 
   if (!from || !to) {
     return (
-      <div className="min-h-screen bg-[#f4f8f4] py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-6">Route Results</h1>
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-yellow-200">
-            <h2 className="text-xl font-semibold text-amber-700">Missing search details</h2>
-            <p className="mt-2 text-gray-600">
-              Please enter both starting point and destination from the home page.
-            </p>
+      <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-blue-50 py-8 sm:py-12">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">Route Results</h1>
+          <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 border-l-4 border-amber-400">
+            <div className="flex gap-3 sm:gap-4">
+              <span className="text-2xl flex-shrink-0">⚠️</span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bold text-amber-900">Missing details</h2>
+                <p className="mt-2 text-sm sm:text-base text-gray-700">
+                  Please enter both starting point and destination from the home page.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -33,17 +38,22 @@ export default async function RoutePage({ searchParams }: RoutePageProps) {
 
   if (!searchResponse.results.length) {
     return (
-      <div className="min-h-screen bg-[#f4f8f4] py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-6">Route Results</h1>
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-rose-200">
-            <h2 className="text-xl font-semibold text-red-700">No route found</h2>
-            <p className="mt-2 text-gray-600">
-              We could not find a direct route from <strong>{from}</strong> to <strong>{to}</strong>.
-            </p>
-            <p className="mt-3 text-gray-500">
-              Try nearby landmark names or shorter stop names.
-            </p>
+      <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-blue-50 py-8 sm:py-12">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">Route Results</h1>
+          <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 border-l-4 border-red-400">
+            <div className="flex gap-3 sm:gap-4">
+              <span className="text-2xl flex-shrink-0">❌</span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-bold text-red-900">No routes found</h2>
+                <p className="mt-2 text-sm sm:text-base text-gray-700">
+                  Could not find a route from <strong className="text-gray-900">{from}</strong> to <strong className="text-gray-900">{to}</strong>.
+                </p>
+                <p className="mt-3 text-xs sm:text-sm text-gray-600">
+                  💡 Try using major landmark names or check the stop map on the home page.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -51,16 +61,19 @@ export default async function RoutePage({ searchParams }: RoutePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f8f4] py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-blue-50 py-6 sm:py-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold">Route Results</h1>
-          <p className="mt-2 text-gray-600">
-            Showing {searchResponse.results.length} options from <strong>{from}</strong> to <strong>{to}</strong>
+          <div className="inline-block bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold mb-2">
+            ✅ {searchResponse.results.length} Route{searchResponse.results.length !== 1 ? 's' : ''} Found
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">Route Results</h1>
+          <p className="mt-2 text-sm sm:text-base text-gray-600">
+            From <span className="font-semibold text-gray-900">{from}</span> to <span className="font-semibold text-gray-900">{to}</span>
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 sm:space-y-6">
           {searchResponse.results.map((result, index) => (
             <RouteCard key={result.routeId} result={result} rank={index + 1} />
           ))}

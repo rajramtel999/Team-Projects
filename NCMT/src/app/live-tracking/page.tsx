@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
 import LiveMapView from '@/components/LiveMapView';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/config/firebase';
@@ -84,41 +83,39 @@ export default function LiveTrackingPage() {
   const selectedRoute = routes.find((r) => r.route.id === selectedRouteId);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
-      <main className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-blue-50">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
             🚍 Live Vehicle Tracking
           </h1>
-          <p className="text-gray-600">
-            Track vehicles in real-time as they move along their routes
+          <p className="text-sm sm:text-base text-gray-600">
+            See vehicles moving in real-time across selected routes
           </p>
         </div>
 
         {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"></div>
-            <p className="mt-4 text-gray-600">Loading routes...</p>
+          <div className="text-center py-12 sm:py-16">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
+            <p className="mt-4 text-gray-600 text-sm">Loading routes...</p>
           </div>
         ) : routes.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <p className="text-gray-500">No routes available for tracking</p>
+          <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 text-center border-l-4 border-yellow-400">
+            <p className="text-gray-600">⚠️ No routes available for tracking</p>
           </div>
         ) : (
           <>
             {/* Route selector */}
-            <div className="mb-6">
-              <label htmlFor="route-select" className="block text-sm font-medium text-gray-700 mb-2">
-                Select Route
+            <div className="mb-6 rounded-xl bg-white p-4 sm:p-6 shadow-sm border border-gray-200">
+              <label htmlFor="route-select" className="block text-sm font-semibold text-gray-700 mb-3">
+                Select Route to Track
               </label>
               <select
                 id="route-select"
                 value={selectedRouteId}
                 onChange={(e) => setSelectedRouteId(e.target.value)}
-                className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base bg-white"
               >
                 {routes.map((r) => (
                   <option key={r.route.id} value={r.route.id}>
@@ -130,22 +127,23 @@ export default function LiveTrackingPage() {
 
             {/* Live map */}
             {selectedRoute && (
-              <LiveMapView
-                routeId={selectedRoute.route.id}
-                stops={selectedRoute.stops}
-                routeName={selectedRoute.route.name}
-              />
+              <div className="mb-6 rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                <LiveMapView
+                  routeId={selectedRoute.route.id}
+                  stops={selectedRoute.stops}
+                  routeName={selectedRoute.route.name}
+                />
+              </div>
             )}
 
             {/* Info card */}
-            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">ℹ️</span>
+            <div className="bg-emerald-50 border-l-4 border-emerald-500 rounded-lg p-4 sm:p-6">
+              <div className="flex gap-3 sm:gap-4">
+                <span className="text-2xl flex-shrink-0">ℹ️</span>
                 <div>
-                  <h3 className="font-semibold text-blue-900 mb-1">Live Tracking Demo</h3>
-                  <p className="text-blue-800 text-sm">
-                    Vehicles are shown in real-time as they move along the route.
-                    Blue arrows indicate vehicle direction, and the map updates automatically.
+                  <h3 className="font-bold text-emerald-900 mb-2 text-sm sm:text-base">Live Tracking Demo</h3>
+                  <p className="text-emerald-800 text-xs sm:text-sm leading-relaxed">
+                    Vehicles appear on the map and update positions in real-time. Start the simulator via PowerShell to see vehicles moving along the route. Blue arrows show direction of travel.
                     Click on any vehicle to see its current speed and status.
                   </p>
                 </div>
