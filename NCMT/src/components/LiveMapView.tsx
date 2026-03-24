@@ -41,6 +41,7 @@ interface LiveMapViewProps {
 
 export default function LiveMapView({ routeId, stops, routeName }: LiveMapViewProps) {
   const [vehicles, setVehicles] = useState<Record<string, VehiclePosition>>({});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [L, setL] = useState<any>(null);
 
   // Load Leaflet only on client side
