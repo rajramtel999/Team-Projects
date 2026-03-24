@@ -23,7 +23,7 @@ const PROJECTS = [
         description: "See exactly what data websites collect about you automatically - no permissions needed.",
         image: "https://cdn.discordapp.com/attachments/1484075591631110155/1486078154895265984/image.png?ex=69c431a2&is=69c2e022&hm=9737ed4524f3672c8f659dbfb69d9e5622ca3f8e6ee0178935726669483033e3&",
         tags: ["HTML", "CSS", "JavaScript", "Python"],
-        liveUrl: "https://livepro.site/TimroData",
+        liveUrl: "https://livepro.site/TimroData/1/",
         featured: true
     }
     
