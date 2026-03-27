@@ -1,9 +1,9 @@
 /**
  * PROJECTS DATA
- * 
+ *
  * Easy-to-update project list for the portfolio.
  * To add a new project, simply add an object to the PROJECTS array below.
- * 
+ *
  * Required fields:
  * - id: Unique identifier (number)
  * - title: Project name
@@ -11,21 +11,23 @@
  * - image: URL or path to project thumbnail
  * - tags: Array of technologies used
  * - liveUrl: URL to the live project
- * 
+ *
  * Optional fields:
  * - featured: Boolean to highlight certain projects
  */
 
 const PROJECTS = [
-    {
-        id: 1,
-        title: "TimroData - Web Privacy Exposure Demo",
-        description: "See exactly what data websites collect about you automatically - no permissions needed.",
-        image: "https://cdn.discordapp.com/attachments/1484075591631110155/1486078154895265984/image.png?ex=69c431a2&is=69c2e022&hm=9737ed4524f3672c8f659dbfb69d9e5622ca3f8e6ee0178935726669483033e3&",
-        tags: ["HTML", "CSS", "JavaScript", "Python"],
-        liveUrl: "https://livepro.site/TimroData/1/",
-        featured: true
-    }, /*
+  {
+    id: 1,
+    title: "TimroData - Web Privacy Exposure Demo",
+    description:
+      "See exactly what data websites collect about you automatically - no permissions needed.",
+    image:
+      "https://cdn.discordapp.com/attachments/1484075591631110155/1486078154895265984/image.png?ex=69c77d62&is=69c62be2&hm=9f7d9fc5268d7f0ca0582d0b40531d7a7b5c944ff54f37bb4db86543c0e0b6d3&",
+    tags: ["HTML", "CSS", "JavaScript", "Python"],
+    liveUrl: "https://livepro.site/TimroData/1/",
+    featured: true,
+  } /*
     {
         id: 2,
         title: "Real-Time Chat Application",
@@ -92,10 +94,10 @@ const PROJECTS = [
         tags: ["React Native", "Firebase", "Express.js", "MongoDB"],
         liveUrl: "https://example.com/fitness-tracker"
     }
-    */
+    */,
 ];
 
 // Export for use in script.js
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = PROJECTS;
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = PROJECTS;
 }

@@ -4,19 +4,20 @@
  * Features:
  * - Dynamic project rendering
  * - Lazy loading for images
- * - Smooth interactions and animations
- * - Mobile-responsive behavior
- * - Interactive button hover effects
+ * - Premium 3D Tilt & Glare interactions
  * - Particle generation
  */
 
-// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if PROJECTS is defined
+    if (typeof PROJECTS === 'undefined') {
+        console.error('PROJECTS array is not defined. Ensure projects.js is loaded first.');
+        return;
+    }
+
     renderProjects();
     setupIntersectionObserver();
     setupSmoothScroll();
-    setupButtonHover();
-    setupCardParallax();
     generateParticles();
 });
 
@@ -27,10 +28,8 @@ function renderProjects() {
     const projectsGrid = document.getElementById('projectsGrid');
     const emptyState = document.getElementById('emptyState');
 
-    // Clear existing content
     projectsGrid.innerHTML = '';
 
-    // Check if projects exist
     if (!PROJECTS || PROJECTS.length === 0) {
         emptyState.style.display = 'block';
         return;
@@ -38,356 +37,145 @@ function renderProjects() {
 
     emptyState.style.display = 'none';
 
-    // Render each project
     PROJECTS.forEach((project, index) => {
         const projectCard = createProjectCard(project, index);
         projectsGrid.appendChild(projectCard);
     });
     
-    // Setup observers and interactions
+    // Setup interactions on the newly injected cards
     setTimeout(() => {
-        setupIntersectionObserver();
         observeElements();
-    }, 100);
+    }, 50);
 }
 
 /**
- * Create a project card element
+ * Create a project card element with inner 3D wrapper
  */
 function createProjectCard(project, index) {
     const card = document.createElement('article');
     card.className = 'project-card' + (project.featured ? ' featured' : '');
     card.setAttribute('data-project-id', project.id);
-    card.style.animationDelay = `${index * 0.1}s`;
+    card.style.animationDelay = `${index * 0.15}s`;
 
-    // Generate tags HTML
     const tagsHTML = project.tags
-        .map(tag => `<span class="tag">${tag}</span>`)
+        .map(tag => `<span class="tag">${escapeHtml(tag)}</span>`)
         .join('');
 
-    // Create card content
     card.innerHTML = `
-        ${project.featured ? '<div class="featured-badge">⭐ Featured</div>' : ''}
-        <img 
-            class="project-image" 
-            data-src="${project.image}" 
-            alt="${project.title} - ${project.description}"
-            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'%3E%3Crect fill='%230d0f1c' width='400' height='250'/%3E%3C/svg%3E"
-            loading="lazy"
-        >
-        <div class="project-content">
-            <h3 class="project-title">${escapeHtml(project.title)}</h3>
-            <p class="project-description">${escapeHtml(project.description)}</p>
-            <div class="project-tags">
-                ${tagsHTML}
+        <div class="project-card-inner">
+            ${project.featured ? '<div class="featured-badge">⭐ Featured</div>' : ''}
+            
+            <div class="project-image-wrapper">
+                <img 
+                    class="project-image" 
+                    data-src="${project.image}" 
+                    alt="${escapeHtml(project.title)}"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'%3E%3Crect fill='%230f111e' width='400' height='250'/%3E%3C/svg%3E"
+                    loading="lazy"
+                >
             </div>
-            <a href="${project.liveUrl}" class="live-button" target="_blank" rel="noopener noreferrer" title="View ${project.title} live">
-                <span>Live</span>
-                <i class="bi bi-arrow-up-right"></i>
-            </a>
+            
+            <div class="project-content">
+                <h3 class="project-title">${escapeHtml(project.title)}</h3>
+                <p class="project-description">${escapeHtml(project.description)}</p>
+                
+                <div class="project-tags">
+                    ${tagsHTML}
+                </div>
+                
+                <a href="${project.liveUrl}" class="live-button" target="_blank" rel="noopener noreferrer">
+                    <span>View Live</span>
+                    <i class="bi bi-eye-fill"></i>
+                </a>
+            </div>
         </div>
     `;
 
     return card;
 }
 
+
+
 /**
- * Setup Intersection Observer for lazy loading images
+ * Lazy Loading
  */
 function setupIntersectionObserver() {
-    const imageOptions = {
-        threshold: 0.1,
-        rootMargin: '50px'
-    };
-
-    const imageObserver = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                const dataSrc = img.getAttribute('data-src');
-
-                if (dataSrc) {
-                    img.src = dataSrc;
+                const src = img.getAttribute('data-src');
+                if (src) {
+                    img.src = src;
                     img.removeAttribute('data-src');
-                    
-                    img.addEventListener('load', () => {
-                        img.style.animation = 'fadeIn 0.5s ease-in-out';
-                    });
+                    img.onload = () => { img.style.opacity = '1'; };
                 }
-
-                observer.unobserve(img);
+                obs.unobserve(img);
             }
         });
-    }, imageOptions);
+    }, { threshold: 0.1, rootMargin: '50px' });
 
-    // Observe all lazy-loaded images
-    setTimeout(() => {
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }, 100);
-}
-
-/**
- * Escape HTML to prevent XSS
- */
-function escapeHtml(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
-}
-
-/**
- * Smooth scroll for anchor links
- */
-function setupSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        img.style.opacity = '0';
+        // Ensure both opacity and smooth transform scale transitions are preserved
+        img.style.transition = 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+        observer.observe(img);
     });
 }
 
 /**
- * Add project dynamically (for future CMS integration)
- * Usage: addProject({ id: 10, title: "...", ... })
- */
-function addProject(projectData) {
-    if (
-        projectData.id &&
-        projectData.title &&
-        projectData.description &&
-        projectData.image &&
-        projectData.tags &&
-        projectData.liveUrl
-    ) {
-        PROJECTS.push(projectData);
-        renderProjects();
-        setupIntersectionObserver();
-        console.log(`Project "${projectData.title}" added successfully!`);
-    } else {
-        console.error('Invalid project data. Missing required fields.');
-    }
-}
-
-/**
- * Remove project by ID
- * Usage: removeProject(1)
- */
-function removeProject(projectId) {
-    const index = PROJECTS.findIndex(p => p.id === projectId);
-    
-    if (index > -1) {
-        const removedProject = PROJECTS[index];
-        PROJECTS.splice(index, 1);
-        renderProjects();
-        setupIntersectionObserver();
-        console.log(`Project "${removedProject.title}" removed successfully!`);
-    } else {
-        console.error(`Project with ID ${projectId} not found.`);
-    }
-}
-
-/**
- * Update project by ID
- * Usage: updateProject(1, { title: "New Title", ... })
- */
-function updateProject(projectId, updatedData) {
-    const project = PROJECTS.find(p => p.id === projectId);
-    
-    if (project) {
-        Object.assign(project, updatedData);
-        renderProjects();
-        setupIntersectionObserver();
-        console.log(`Project "${updatedData.title || project.title}" updated successfully!`);
-    } else {
-        console.error(`Project with ID ${projectId} not found.`);
-    }
-}
-
-/**
- * Get all projects
- */
-function getAllProjects() {
-    return PROJECTS;
-}
-
-/**
- * Get featured projects
- */
-function getFeaturedProjects() {
-    return PROJECTS.filter(p => p.featured);
-}
-
-/**
- * Search projects by keywords
- */
-function searchProjects(keyword) {
-    const lowerKeyword = keyword.toLowerCase();
-    return PROJECTS.filter(p =>
-        p.title.toLowerCase().includes(lowerKeyword) ||
-        p.description.toLowerCase().includes(lowerKeyword) ||
-        p.tags.some(tag => tag.toLowerCase().includes(lowerKeyword))
-    );
-}
-
-/**
- * Get projects by tag
- */
-function getProjectsByTag(tag) {
-    return PROJECTS.filter(p => p.tags.includes(tag));
-}
-
-// Add fade-in animation for lazy-loaded images
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Export functions for console use (optional)
-window.projectPortfolio = {
-    addProject,
-    removeProject,
-    updateProject,
-    getAllProjects,
-    getFeaturedProjects,
-    searchProjects,
-    getProjectsByTag
-};
-
-// Log available commands (helpful for developers)
-console.log(
-    '%cProject Portfolio loaded!',
-    'color: #00d4ff; font-size: 14px; font-weight: bold;'
-);
-console.log(
-    '%cAvailable commands:\n' +
-    'projectPortfolio.addProject(data)\n' +
-    'projectPortfolio.removeProject(id)\n' +
-    'projectPortfolio.updateProject(id, data)\n' +
-    'projectPortfolio.getAllProjects()\n' +
-    'projectPortfolio.getFeaturedProjects()\n' +
-    'projectPortfolio.searchProjects(keyword)\n' +
-    'projectPortfolio.getProjectsByTag(tag)',
-    'color: #7b68ee; font-size: 12px;'
-);
-
-/**
- * Setup interactive button hover effects
- */
-function setupButtonHover() {
-    const buttons = document.querySelectorAll('.cta-button, .live-button, .contact-link');
-    
-    buttons.forEach(button => {
-        button.addEventListener('mousemove', (e) => {
-            const rect = button.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            
-            button.style.setProperty('--px', x + '%');
-            button.style.setProperty('--py', y + '%');
-        });
-    });
-}
-
-/**
- * Setup creative parallax effect on project cards
- */
-function setupCardParallax() {
-    const cards = document.querySelectorAll('.project-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-        });
-    });
-}
-
-/**
- * Generate animated particles
+ * Particles
  */
 function generateParticles() {
-    const particleField = document.querySelector('.particle-field');
+    const field = document.querySelector('.particle-field');
+    if (!field) return;
     
-    if (!particleField) return;
-    
-    const particleCount = window.innerWidth > 768 ? 20 : 10;
-    
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        const size = Math.random() * 4 + 2;
-        const top = Math.random() * 100;
-        const left = Math.random() * 100;
-        const duration = Math.random() * 10 + 12;
-        const delay = Math.random() * 5;
-        const dx = (Math.random() - 0.5) * 100;
-        const dy = -Math.random() * 100 - 50;
-        
-        particle.style.setProperty('--size', size + 'px');
-        particle.style.setProperty('--top', top + '%');
-        particle.style.setProperty('--left', left + '%');
-        particle.style.setProperty('--duration', duration + 's');
-        particle.style.setProperty('--delay', delay + 's');
-        particle.style.setProperty('--dx', dx + 'px');
-        particle.style.setProperty('--dy', dy + 'px');
-        
-        particleField.appendChild(particle);
+    const count = window.innerWidth > 768 ? 25 : 12;
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.setProperty('--size', (Math.random() * 3 + 2) + 'px');
+        p.style.setProperty('--top', Math.random() * 100 + '%');
+        p.style.setProperty('--left', Math.random() * 100 + '%');
+        p.style.setProperty('--duration', (Math.random() * 10 + 10) + 's');
+        p.style.setProperty('--delay', (Math.random() * -5) + 's');
+        p.style.setProperty('--dx', ((Math.random() - 0.5) * 150) + 'px');
+        p.style.setProperty('--dy', (-Math.random() * 150 - 50) + 'px');
+        field.appendChild(p);
     }
 }
 
 /**
- * Observe when elements come into view
+ * Reveal on Scroll
  */
 function observeElements() {
-    const cards = document.querySelectorAll('[data-project-id]');
-    const contactSection = document.querySelector('.contact-container');
-    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.style.transform = 'translateY(0) translateZ(0)';
             }
         });
     }, { threshold: 0.1 });
     
-    cards.forEach(card => observer.observe(card));
-    if (contactSection) observer.observe(contactSection);
+    const sections = document.querySelectorAll('.contact-container, .footer');
+    sections.forEach(s => observer.observe(s));
+}
+
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.toString().replace(/[&<>"']/g, m => map[m]);
 }
