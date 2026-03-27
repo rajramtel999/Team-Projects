@@ -25,7 +25,7 @@ const PROJECTS = [
     image:
       "https://cdn.discordapp.com/attachments/1484075591631110155/1486078154895265984/image.png?ex=69c77d62&is=69c62be2&hm=9f7d9fc5268d7f0ca0582d0b40531d7a7b5c944ff54f37bb4db86543c0e0b6d3&",
     tags: ["HTML", "CSS", "JavaScript", "Python"],
-    liveUrl: "https://livepro.site/TimroData/1/",
+    liveUrl: "https://livepro.site/TimroData/",
     featured: true,
   } /*
     {
