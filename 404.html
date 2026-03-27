@@ -36,7 +36,11 @@
       }
 
       /* ── Reset ── */
-      * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
       html {
         scroll-behavior: smooth;
@@ -48,9 +52,21 @@
         min-height: 100vh;
         background-color: var(--bg-primary);
         background-image:
-          radial-gradient(circle at 15% 15%, rgba(94, 53, 177, 0.15) 0%, transparent 40%),
-          radial-gradient(circle at 85% 85%, rgba(0, 229, 255, 0.1) 0%, transparent 40%),
-          linear-gradient(180deg, rgba(2, 4, 10, 0) 0%, rgba(10, 11, 24, 0.8) 100%);
+          radial-gradient(
+            circle at 15% 15%,
+            rgba(94, 53, 177, 0.15) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 85% 85%,
+            rgba(0, 229, 255, 0.1) 0%,
+            transparent 40%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(2, 4, 10, 0) 0%,
+            rgba(10, 11, 24, 0.8) 100%
+          );
         color: var(--text-primary);
         font-size: 16px;
         line-height: 1.6;
@@ -78,19 +94,35 @@
       }
 
       .orb-one {
-        width: 450px; height: 450px;
-        top: -150px; left: -150px;
-        background: radial-gradient(circle, rgba(94, 53, 177, 0.8), transparent 70%);
+        width: 450px;
+        height: 450px;
+        top: -150px;
+        left: -150px;
+        background: radial-gradient(
+          circle,
+          rgba(94, 53, 177, 0.8),
+          transparent 70%
+        );
       }
 
       .orb-two {
-        width: 500px; height: 500px;
-        bottom: -200px; right: -150px;
-        background: radial-gradient(circle, rgba(0, 229, 255, 0.5), transparent 70%);
+        width: 500px;
+        height: 500px;
+        bottom: -200px;
+        right: -150px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 229, 255, 0.5),
+          transparent 70%
+        );
         animation-delay: -5s;
       }
 
-      .particle-field { position: absolute; inset: 0; overflow: hidden; }
+      .particle-field {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
 
       .particle {
         position: absolute;
@@ -125,7 +157,12 @@
         font-weight: 800;
         line-height: 1;
         letter-spacing: -0.04em;
-        background: linear-gradient(120deg, var(--accent-strong), #a27aff, var(--accent-strong));
+        background: linear-gradient(
+          120deg,
+          var(--accent-strong),
+          #a27aff,
+          var(--accent-strong)
+        );
         background-size: 200% auto;
         -webkit-background-clip: text;
         background-clip: text;
@@ -215,7 +252,11 @@
 
       /* ── Glassmorphism Card ── */
       .glass-card {
-        background: linear-gradient(145deg, rgba(20, 22, 40, 0.7), rgba(10, 11, 20, 0.85));
+        background: linear-gradient(
+          145deg,
+          rgba(20, 22, 40, 0.7),
+          rgba(10, 11, 20, 0.85)
+        );
         border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 28px;
         padding: 2.2rem 2.8rem;
@@ -225,7 +266,9 @@
         display: flex;
         align-items: center;
         gap: 1.2rem;
-        transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        transition:
+          border-color 0.4s ease,
+          box-shadow 0.4s ease;
       }
 
       .glass-card:hover {
@@ -321,43 +364,82 @@
 
       /* ── Keyframes ── */
       @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(40px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       @keyframes drift {
-        from { transform: translate(-30px, -20px) scale(1); }
-        to   { transform: translate(30px, 20px) scale(1.1); }
+        from {
+          transform: translate(-30px, -20px) scale(1);
+        }
+        to {
+          transform: translate(30px, 20px) scale(1.1);
+        }
       }
 
       @keyframes badgeSpin {
-        from { transform: rotate(0deg); }
-        to   { transform: rotate(360deg); }
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       @keyframes shimmer {
-        0%   { background-position: 0% center; }
-        100% { background-position: 200% center; }
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
       }
 
       @keyframes particleFloat {
-        0%   { transform: translate(0, 0) scale(0.8); opacity: 0; }
-        10%  { opacity: 1; }
-        90%  { opacity: 1; }
-        100% { transform: translate(var(--dx, 20px), var(--dy, -80px)) scale(1.2); opacity: 0; }
+        0% {
+          transform: translate(0, 0) scale(0.8);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--dx, 20px), var(--dy, -80px)) scale(1.2);
+          opacity: 0;
+        }
       }
 
       /* ── Responsive ── */
       @media (max-width: 500px) {
-        .glass-card { flex-direction: column; text-align: center; }
-        .glass-card p { text-align: center; }
-        .btn-group { flex-direction: column; width: 100%; }
-        .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+        .glass-card {
+          flex-direction: column;
+          text-align: center;
+        }
+        .glass-card p {
+          text-align: center;
+        }
+        .btn-group {
+          flex-direction: column;
+          width: 100%;
+        }
+        .btn-primary,
+        .btn-secondary {
+          width: 100%;
+          justify-content: center;
+        }
       }
     </style>
   </head>
   <body>
-
     <!-- Animated Background -->
     <div class="backdrop" aria-hidden="true">
       <div class="gradient-orb orb-one"></div>
@@ -380,11 +462,14 @@
 
       <div class="glass-card" role="note">
         <i class="bi bi-compass" aria-hidden="true"></i>
-        <p>You might want to head back to the homepage and explore our live projects from there.</p>
+        <p>
+          You might want to head back to the homepage and explore our live
+          projects from there.
+        </p>
       </div>
 
       <div class="btn-group">
-        <a href="index.html" class="btn-primary" id="homeBtn">
+        <a href="https://livepro.site" class="btn-primary" id="homeBtn">
           <i class="bi bi-house-fill" aria-hidden="true"></i>
           Go Home
         </a>
@@ -410,13 +495,13 @@
         p.className = "particle";
 
         const size = Math.random() * 4 + 2;
-        p.style.setProperty("--size",     `${size}px`);
-        p.style.setProperty("--top",      `${Math.random() * 100}%`);
-        p.style.setProperty("--left",     `${Math.random() * 100}%`);
+        p.style.setProperty("--size", `${size}px`);
+        p.style.setProperty("--top", `${Math.random() * 100}%`);
+        p.style.setProperty("--left", `${Math.random() * 100}%`);
         p.style.setProperty("--duration", `${Math.random() * 12 + 10}s`);
-        p.style.setProperty("--delay",    `${Math.random() * -20}s`);
-        p.style.setProperty("--dx",       `${(Math.random() - 0.5) * 60}px`);
-        p.style.setProperty("--dy",       `${-(Math.random() * 80 + 40)}px`);
+        p.style.setProperty("--delay", `${Math.random() * -20}s`);
+        p.style.setProperty("--dx", `${(Math.random() - 0.5) * 60}px`);
+        p.style.setProperty("--dy", `${-(Math.random() * 80 + 40)}px`);
 
         field.appendChild(p);
       }
